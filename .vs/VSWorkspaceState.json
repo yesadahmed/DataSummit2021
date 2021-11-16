@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\WebHooks"
+    "\\Templates",
+    "\\Templates\\AzFuncV1DurableCRMSDK",
+    "\\WebHooks",
+    "\\WebHooks\\WebAPIDotNetCore"
   ],
-  "SelectedNode": "\\WebHooks\\Consoto.WebHook.Account",
+  "SelectedNode": "\\WebHooks\\WebAPIDotNetCore",
   "PreviewInSolutionExplorer": false
 }
