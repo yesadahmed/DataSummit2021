@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consoto.WebHook.Account", "Consoto.WebHook.Account\Consoto.WebHook.Account.csproj", "{EB089C77-BC85-44EE-B2AD-341C9738A177}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "V1DurableNetCRMTemplate", "V1DurableNetCRMTemplate\V1DurableNetCRMTemplate.csproj", "{70069048-6868-4C86-8E51-B460A61121D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB089C77-BC85-44EE-B2AD-341C9738A177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB089C77-BC85-44EE-B2AD-341C9738A177}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB089C77-BC85-44EE-B2AD-341C9738A177}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB089C77-BC85-44EE-B2AD-341C9738A177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70069048-6868-4C86-8E51-B460A61121D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70069048-6868-4C86-8E51-B460A61121D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70069048-6868-4C86-8E51-B460A61121D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70069048-6868-4C86-8E51-B460A61121D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AB727E7D-C3F0-4C91-8401-12BB7258C3AB}
+		SolutionGuid = {0BC6ADAD-7844-44A3-AE0B-D94DBD68C5C8}
 	EndGlobalSection
 EndGlobal

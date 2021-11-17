@@ -1,14 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Templates",
     "\\Templates\\AzFuncV1DurableCRMSDK",
-    "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate",
-    "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate",
-    "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate\\AzFunctions",
+    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate",
+    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate",
+    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate\\AzureFunctions",
     "\\WebHooks",
-    "\\WebHooks\\WebAPIDotNetCore"
+    "\\WebHooks\\SDKDotNet",
+    "\\WebHooks\\SDKDotNet\\Consoto.WebHook.Account",
+    "\\WebHooks\\SDKDotNet\\Consoto.WebHook.Account\\Consoto.WebHook.Account",
+    "\\WebHooks\\WebAPIDotNetCore\\V3DurableCore3CrmTemplate"
   ],
-  "SelectedNode": "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate\\AzFunctions\\FuncAccountOnDeleteTrigger.cs",
+  "SelectedNode": "\\WebHooks\\SDKDotNet\\Consoto.WebHook.Account\\Consoto.WebHook.Account\\Function1.cs",
   "PreviewInSolutionExplorer": false
 }
