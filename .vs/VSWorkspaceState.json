@@ -4,8 +4,9 @@
     "\\Templates",
     "\\Templates\\AzFuncV1DurableCRMSDK",
     "\\WebHooks",
-    "\\WebHooks\\WebAPIDotNetCore"
+    "\\WebHooks\\WebAPIDotNetCore",
+    "\\WebHooks\\WebAPIDotNetCore\\V3DurableCore3CrmTemplate"
   ],
-  "SelectedNode": "\\WebHooks\\WebAPIDotNetCore",
+  "SelectedNode": "\\WebHooks\\WebAPIDotNetCore\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate.sln",
   "PreviewInSolutionExplorer": false
 }
