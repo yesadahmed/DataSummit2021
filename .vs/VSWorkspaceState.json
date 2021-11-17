@@ -3,10 +3,12 @@
     "",
     "\\Templates",
     "\\Templates\\AzFuncV1DurableCRMSDK",
+    "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate",
+    "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate",
+    "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate\\AzFunctions",
     "\\WebHooks",
-    "\\WebHooks\\WebAPIDotNetCore",
-    "\\WebHooks\\WebAPIDotNetCore\\V3DurableCore3CrmTemplate"
+    "\\WebHooks\\WebAPIDotNetCore"
   ],
-  "SelectedNode": "\\WebHooks\\WebAPIDotNetCore\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate.sln",
+  "SelectedNode": "\\Templates\\AzFuncV1DurableCRMSDK\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate\\AzFunctions\\FuncAccountOnDeleteTrigger.cs",
   "PreviewInSolutionExplorer": false
 }
