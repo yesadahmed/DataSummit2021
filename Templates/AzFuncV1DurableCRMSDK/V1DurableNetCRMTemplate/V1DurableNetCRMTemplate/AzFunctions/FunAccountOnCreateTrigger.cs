@@ -23,7 +23,7 @@ namespace V1DurableNetCRMTemplate.AzFunctions
 		/// <param name="log"></param>
 		/// <returns></returns>
 		[FunctionName("AccountOnCreateTrigger")]
-		public static string CreateArbeidsforholdTrigger([ActivityTrigger] AccountModel account, TraceWriter log)
+		public static string AccountCreateTrigger([ActivityTrigger] AccountModel account, TraceWriter log)
 		{
 			if (account != null)
 			{

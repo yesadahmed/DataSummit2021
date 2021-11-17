@@ -39,12 +39,12 @@ namespace V1DurableNetCRMTemplate.Handlers
 			{
 				WhoAmIResponse response = ((WhoAmIResponse)crmService.Execute(new WhoAmIRequest()));
 				if (response != null)
-					log.Error($"OrganizationId:  {response.OrganizationId}");
+					log.Info($"OrganizationId:  {response.OrganizationId}");
 			}
 			catch (Exception ex)
 			{
 				var error = UtilityFunctions.GetCrmFaultExceptionAny(ex);
-				log.Error($"(WhoAmICall): error : {error}");
+				log.Info($"(WhoAmICall): error : {error}");
 			}
 		}
 

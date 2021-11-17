@@ -1,25 +1,26 @@
-﻿using V1DurableNetCRMTemplate.Model;
+﻿using V3DurableCore3CrmTemplate.Model;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Logging;
 
-namespace V1DurableNetCRMTemplate.Parsers
+namespace V3DurableCore3CrmTemplate.Parsers
 {
 	public class JsonParser
 	{
 
 		#region Data Member  
-		TraceWriter log;
+		ILogger log;
 		#endregion
 
 
 		#region Constructor
-		public JsonParser(TraceWriter Log)
+		public JsonParser(ILogger Log)
 		{
 			log = Log;
 		}
@@ -28,7 +29,7 @@ namespace V1DurableNetCRMTemplate.Parsers
 
 		#region Public Functions  
 		/// <summary>
-		/// you can exten this as much as you want
+		/// you can extend this as much as you want
 		/// </summary>
 		/// <param name="webhookJson"></param>
 		/// <returns></returns>
@@ -45,9 +46,9 @@ namespace V1DurableNetCRMTemplate.Parsers
 					caseModel.PrimaryEntityName = data != null ? data.PrimaryEntityName : "";
 					caseModel.MessageName = data != null ? data.MessageName : "";
 
-					if (!caseModel.PrimaryEntityName.Equals("account"))
+					if (!caseModel.PrimaryEntityName.Equals("col_workrelationship"))
 					{
-						log.Error($"Entity is not account.");//just avoid and return task
+						log.LogError($"Entity is not incident.");//just avoid and return task
 						return null;
 					}
 
@@ -77,7 +78,7 @@ namespace V1DurableNetCRMTemplate.Parsers
 
 						if ((data["InputParameters"] != null) && data["InputParameters"][0] != null) //Define your own attributes in model
 						{
-							caseModel = GetInputParameterValues(caseModel, data);							
+							caseModel = GetInputParameterValues(caseModel, data);
 						}
 
 						if ((data["OutputParameters"] != null) && data["OutputParameters"][0] != null) //Define your own attributes in model
@@ -90,7 +91,7 @@ namespace V1DurableNetCRMTemplate.Parsers
 			catch (Exception ex)
 			{
 
-				log.Error($"Error:GetRealsjonInfoOnCreateOrUpdate parsing:  {ex.Message}");
+				log.LogError($"Error:GetRealsjonInfoOnCreateOrUpdate parsing:  {ex.Message}");
 			}
 
 			return caseModel;

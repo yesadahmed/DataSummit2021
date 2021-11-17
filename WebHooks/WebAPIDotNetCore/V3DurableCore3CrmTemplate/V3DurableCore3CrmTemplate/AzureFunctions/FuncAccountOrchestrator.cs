@@ -1,29 +1,27 @@
 ﻿using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using V1DurableNetCRMTemplate.Model;
-using V1DurableNetCRMTemplate.Parsers;
+using V3DurableCore3CrmTemplate.Model;
+using V3DurableCore3CrmTemplate.Parsers;
 
-namespace V1DurableNetCRMTemplate.AzFunctions
+namespace V3DurableCore3CrmTemplate.AzureFunctions
 {
-	public class FunAccountOrchestrator
+	public static class FuncAccountOrchestrator
 	{
-		/// <summary>
-		/// Adnan Samuel
-		/// Feel free to extend to your needs
-		/// </summary>
+
 		[FunctionName("AccountOrchestrator")]
-		public static async Task RunOrchestrator([OrchestrationTrigger] DurableOrchestrationContext context, TraceWriter log)
+		public static async Task FuncProcessJson(
+		[OrchestrationTrigger] IDurableOrchestrationContext context, ILogger log)
 		{
 			try
 			{
-				string contextJson = context.GetInput<string>();
+				var contextJson = context.GetInput<string>();
 				var parallelTasks = new List<Task>(); // FanIn/FanOut pattern (parallel executions)													  
-				
+
 				//parse object prepared
 				JsonParser jsonParser = new JsonParser(log);
 				AccountModel account = jsonParser.GetInfoOnCreateOrUpdateOrDelete(contextJson);//Crude
@@ -32,21 +30,21 @@ namespace V1DurableNetCRMTemplate.AzFunctions
 				{
 					if (account.IsCreateMessage)
 					{
-						log.Info("create message tirggred");
+						log.LogInformation("create message tirggred");
 						// You can add delays as well if you want using Thread.Sleep /  Context delay
 						//e.g: if some legacy plugins are processing heavy computation , you can delay this process
 						parallelTasks.Add(context.CallActivityAsync("AccountOnCreateTrigger", account));//Add many task you want or chaninig if you need
 					}
 					else if (account.IsUpdateMessage)
 					{
-						log.Info("update message tirggred");
+						log.LogInformation("update message tirggred");
 						// You can add delays as well if you want using Thread.Sleep /  Context delay
 						//e.g: if some legacy plugins are processing heavy computation , you can delay this process
 						parallelTasks.Add(context.CallActivityAsync("AccountOnUpdateTrigger", account));//Add many task you want
 					}
 					else if (account.IsDeleteMessage)
 					{
-						log.Info("delete message tirggred");
+						log.LogInformation("delete message tirggred");
 						// You can add delays as well if you want using Thread.Sleep /  Context delay
 						//e.g: if some legacy plugins are processing heavy computation , you can delay this process
 						parallelTasks.Add(context.CallActivityAsync("AccountOnDeleteTrigger", account));//Add many task you want
@@ -58,13 +56,16 @@ namespace V1DurableNetCRMTemplate.AzFunctions
 					if (parallelTasks.Count > 0)
 						await Task.WhenAll(parallelTasks);// run parallel
 					else
-						log.Warning($"No TASKS to trigger.");
+						log.LogError($"No TASKS to trigger.");
 				}
 			}
 			catch (Exception ex)
 			{
-				log.Error($"AccountOrchestrator: {ex.Message} ");
+				log.LogError($"AccountOrchestrator: {ex.Message} ");
 			}
+
 		}
+
+
 	}
 }

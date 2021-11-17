@@ -14,7 +14,7 @@ namespace V1DurableNetCRMTemplate.AzFunctions
 	{
 
 		[FunctionName("AccountOnDeleteTrigger")]
-		public static string CreateArbeidsforholdTrigger([ActivityTrigger] AccountModel account, TraceWriter log)
+		public static string AccountDeleteTrigger([ActivityTrigger] AccountModel account, TraceWriter log)
 		{
 			if (account != null)
 			{

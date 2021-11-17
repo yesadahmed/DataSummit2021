@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using V3DurableCore3CrmTemplate.Helpers;
@@ -14,25 +16,25 @@ namespace V3DurableCore3CrmTemplate.APIClients
 	{
 		#region Data members
 		private readonly HttpClient _client;
-		private readonly ILogger log;
+		
 		private readonly AppConfigurations config;
 		#endregion
 
 
 		#region Constructor
-		public AccountClient(IHttpClientFactory httpClientFactory, ILogger Log, AppConfigurations Config)
+		public AccountClient(IHttpClientFactory httpClientFactory,  AppConfigurations Config)
 		{
 			this._client = httpClientFactory.CreateClient("crmclient");
-			this.log = Log;
+	
 			config = Config;
 		}
 		#endregion
 
 
 		#region Implementation
-		public async Task<List<AccountModel>> GetAllAccounts()
+		public async Task<Accounts> GetAllAccountsAsync()
 		{
-			List<AccountModel> accounts = new List<AccountModel>();
+			Accounts accounts = new Accounts();
 			try
 			{
 				var url = $"{config.apiurl}/accounts";
@@ -40,17 +42,19 @@ namespace V3DurableCore3CrmTemplate.APIClients
 				if(response.IsSuccessStatusCode)
 				{
 					var json = await response.Content.ReadAsStringAsync();
-					accounts = JsonConvert.DeserializeObject<List<AccountModel>>(json);
+					accounts = JsonConvert.DeserializeObject<Accounts>(json);
 				}
 
 			}
 			catch (Exception ex) 
 			{
-				log.LogError($" GetAllAccounts: erorr: {ex.Message}");
+				
 			}
 
 			return accounts;
 		}
+
+		
 
 
 		#endregion
