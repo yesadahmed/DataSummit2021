@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+	<meta charset="utf-8" />
+	<title></title>
+
+	<style>
+		.card {
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+			max-width: 300px;
+			margin: auto;
+			text-align: center;
+			font-family: arial;
+		}
+
+		.price {
+			color: grey;
+			font-size: 22px;
+		}
+
+		.card button {
+			border: none;
+			outline: 0;
+			padding: 12px;
+			color: white;
+			background-color: #000;
+			text-align: center;
+			cursor: pointer;
+			width: 100%;
+			font-size: 18px;
+		}
+
+			.card button:hover {
+				opacity: 0.7;
+			}
+	</style>
+
+
+</head>
+<body onload="loaddata()">
+	<h2 id="mainheading" style="text-align:center"></h2>
+
+	<div class="card" id="mcontents">
+		<!--<img src="https://www.xxl.no/filespin/d38730ad345d4086bfa453fe99cff857?resize=1400,1400&quality=95&bgcolor=efefef" alt="Denim Jeans" style="width:100%">
+		<h1>Tailored Jeans</h1>
+		<p class="price">Kr19.99</p>
+		<p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+		<p><button>Add to Cart</button></p>-->
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+	function loaddata() {
+		debugger;
+		try {
+
+			var accountId = parent.Xrm.Page.data.entity.getId();
+			var json = parent.Xrm.Page.getAttribute("new_userjson").getValue();
+			var name = parent.Xrm.Page.getAttribute("name").getValue();
+			var data = JSON.parse(json);
+
+			var h22 = document.getElementById("mainheading");
+			h22.textContent = name;
+			var div = document.getElementById("mcontents");
+			var html = "<img src='" + data.image + "' alt='" + data.title + "' style='width:220px'>";
+			html += "<h1>" + data.title + "</h1>";
+			html += "<p class='price'>" + "kr" + data.price + "</p>";
+			html += "<p> " + data.title + " </p > ";
+			html += " <p><button>Add to Cart</button></p>";
+
+			div.innerHTML = html;
+		} catch (e) {
+
+		}
+
+
+	}
+
+</script>
+

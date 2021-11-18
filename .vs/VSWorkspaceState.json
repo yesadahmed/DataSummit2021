@@ -1,16 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Templates\\AzFuncV1DurableCRMSDK",
-    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate",
-    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate",
-    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate\\AzureFunctions",
     "\\WebHooks",
     "\\WebHooks\\SDKDotNet",
-    "\\WebHooks\\SDKDotNet\\Consoto.WebHook.Account",
-    "\\WebHooks\\SDKDotNet\\Consoto.WebHook.Account\\Consoto.WebHook.Account",
-    "\\WebHooks\\WebAPIDotNetCore\\V3DurableCore3CrmTemplate"
+    "\\WebHooks\\SDKDotNet\\V1DurableNetCRMTemplate"
   ],
-  "SelectedNode": "\\WebHooks\\SDKDotNet\\Consoto.WebHook.Account\\Consoto.WebHook.Account\\Function1.cs",
+  "SelectedNode": "\\WebHooks\\SDKDotNet\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate.sln",
   "PreviewInSolutionExplorer": false
 }
