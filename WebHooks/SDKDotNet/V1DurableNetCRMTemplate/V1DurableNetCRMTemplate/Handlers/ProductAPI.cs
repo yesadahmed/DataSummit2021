@@ -33,9 +33,9 @@ namespace V1DurableNetCRMTemplate.Handlers
 				product = new ProductModel()
 				{
 					category = GetCategoryName(AccountMdl.new_products),
-					description = AccountMdl.PrimaryEntityId,
+					description = AccountMdl.new_productname,
 					image = AccountMdl.new_proimageurl,
-					price = AccountMdl.prenew_productprice,
+					price = AccountMdl.new_productprice,
 					title = AccountMdl.new_productname
 				};
 
@@ -63,6 +63,58 @@ namespace V1DurableNetCRMTemplate.Handlers
 
 		}
 
+
+		public async Task<ProductModel> UpdateProduct(AccountModel AccountMdl)
+		{
+			ProductModelEx product = null;
+			ProductModel result = null;
+			try
+			{
+
+				var productid = Convert.ToInt32(AccountMdl.new_userid);
+
+				product = new ProductModelEx()
+				{
+
+					category = GetCategoryName(AccountMdl.new_products),
+					description = AccountMdl.new_productname,
+					image = AccountMdl.new_proimageurl,
+					price = AccountMdl.new_productprice,
+					title = AccountMdl.new_productname
+				};
+				HttpResponseMessage httpResponse;
+
+
+				var stringPayload = JsonConvert.SerializeObject(product);
+
+				// Wrap our JSON inside a StringContent which then can be used by the HttpClient class
+				var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+
+
+				var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"https://fakestoreapi.com/products/{productid}");
+
+				request.Content = httpContent;
+				httpResponse = await httpClient.SendAsync(request);
+
+				// Do the actual request and await the response
+
+				// If the response contains content we want to read it!
+				if (httpResponse.Content != null)
+				{
+					var responseContent = await httpResponse.Content.ReadAsStringAsync();
+					result = JsonConvert.DeserializeObject<ProductModel>(responseContent);
+
+				}
+			}
+			catch (Exception ex)
+			{
+				log.Error($"UpdateProduct: {ex.Message}");
+			}
+
+			return result;
+
+		}
 
 
 		string GetCategoryName(int number)

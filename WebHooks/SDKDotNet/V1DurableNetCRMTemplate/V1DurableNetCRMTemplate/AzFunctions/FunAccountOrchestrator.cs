@@ -22,11 +22,16 @@ namespace V1DurableNetCRMTemplate.AzFunctions
 			try
 			{
 				string contextJson = context.GetInput<string>();
+				
+				log.Warning("===========");
 				var parallelTasks = new List<Task>(); // FanIn/FanOut pattern (parallel executions)													  
 				
 				//parse object prepared
 				JsonParser jsonParser = new JsonParser(log);
 				AccountModel account = jsonParser.GetInfoOnCreateOrUpdateOrDelete(contextJson);//Crude
+
+				//account.new_proimageurl = "";
+				//account.prenew_proimageurl = "";
 
 				if (account != null)
 				{

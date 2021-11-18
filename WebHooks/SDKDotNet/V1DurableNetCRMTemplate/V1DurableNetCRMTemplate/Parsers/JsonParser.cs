@@ -34,61 +34,63 @@ namespace V1DurableNetCRMTemplate.Parsers
 		/// <returns></returns>
 		public AccountModel GetInfoOnCreateOrUpdateOrDelete(string webhookJson)
 		{
-			AccountModel caseModel = null;
+			AccountModel accountModel = null;
 			try
 			{
 				dynamic data = JsonConvert.DeserializeObject(ParseJson(webhookJson));//Trim
 				if (data != null)
 				{
-					caseModel = new AccountModel();
-					caseModel.PrimaryEntityId = data != null ? data.PrimaryEntityId : "";
-					caseModel.PrimaryEntityName = data != null ? data.PrimaryEntityName : "";
-					caseModel.MessageName = data != null ? data.MessageName : "";
+					accountModel = new AccountModel();
+					accountModel.PrimaryEntityId = data != null ? data.PrimaryEntityId : "";
+					accountModel.PrimaryEntityName = data != null ? data.PrimaryEntityName : "";
+					accountModel.MessageName = data != null ? data.MessageName : "";
 
-					if (!caseModel.PrimaryEntityName.Equals("account"))
+					if (!accountModel.PrimaryEntityName.Equals("account"))
 					{
 						log.Error($"Entity is not account.");//just avoid and return task
 						return null;
 					}
 
-					if (!string.IsNullOrEmpty(caseModel.MessageName))
+					if (!string.IsNullOrEmpty(accountModel.MessageName))
 					{
 
-						if (caseModel.MessageName.ToLower().Equals("create"))
+						if (accountModel.MessageName.ToLower().Equals("create"))
 						{
-							caseModel = GetAttributesValuesFromPrePostImages(caseModel, data);//  image attributes  only
-							caseModel.IsCreateMessage = true;
+							accountModel = GetAttributesValuesFromPrePostImages(accountModel, data);//  image attributes  only
+							accountModel.IsCreateMessage = true;
 
 						}
-						else if (caseModel.MessageName.ToLower().Equals("update"))
+						else if (accountModel.MessageName.ToLower().Equals("update"))
 						{
-							caseModel = GetAttributesValuesFromPrePostImages(caseModel, data); //image attributes  only
+							accountModel = GetAttributesValuesFromPrePostImages(accountModel, data); //image attributes  only
 
-							if (caseModel.prenew_products != caseModel.new_products)
-								caseModel.IsUpdateMessage = true;
+							if (accountModel.prenew_products != accountModel.new_products)
+								accountModel.IsUpdateMessage = true;
 
-							if (!caseModel.prenew_proimageurl.Equals(caseModel.new_proimageurl, StringComparison.OrdinalIgnoreCase))
-								caseModel.IsUpdateMessage = true;
+							if (!accountModel.prenew_proimageurl.Equals(accountModel.new_proimageurl, StringComparison.OrdinalIgnoreCase))
+								accountModel.IsUpdateMessage = true;
 
-							if (caseModel.prenew_productprice != caseModel.new_productprice)
-								caseModel.IsUpdateMessage = true;
+							if (accountModel.prenew_productprice != accountModel.new_productprice)
+								accountModel.IsUpdateMessage = true;
 
 						}
-						else if (caseModel.MessageName.ToLower().Equals("delete"))//image attributes  only
+						else if (accountModel.MessageName.ToLower().Equals("delete"))//image attributes  only
 						{
-							caseModel = GetAttributesValuesFromPrePostImages(caseModel, data);
+							accountModel = GetAttributesValuesFromPrePostImages(accountModel, data);
 							//nothign need here for now
-							caseModel.IsDeleteMessage = true;
+							accountModel.IsDeleteMessage = true;
 						}
 
-						if ((data["InputParameters"] != null) && data["InputParameters"][0] != null) //Define your own attributes in model
+						if ((data["InputParameters"] != null) && data["InputParameters"].Count != null 
+							&& data["InputParameters"].Count > 0) //Define your own attributes in model
 						{
-							caseModel = GetInputParameterValues(caseModel, data);
+							accountModel = GetInputParameterValues(accountModel, data);
 						}
 
-						if ((data["OutputParameters"] != null) && data["OutputParameters"][0] != null) //Define your own attributes in model
+						if ((data["OutputParameters"] != null) && data["OutputParameters"].Count != null &&
+							data["OutputParameters"].Count > 0) //Define your own attributes in model
 						{
-							caseModel = GetOutputParametersValues(caseModel, data);
+							accountModel = GetOutputParametersValues(accountModel, data);
 						}
 					}
 				}
@@ -96,19 +98,19 @@ namespace V1DurableNetCRMTemplate.Parsers
 			catch (Exception ex)
 			{
 
-				log.Error($"Error:GetRealsjonInfoOnCreateOrUpdate parsing:  {ex.Message}");
+				log.Error($"Error:GetInfoOnCreateOrUpdateOrDelete parsing:  {ex.Message}");
 			}
 
-			return caseModel;
+			return accountModel;
 
 		}
 		#endregion
 
 		#region Private Functions
 
-		private AccountModel GetAttributesValuesFromPrePostImages(AccountModel caseModel, dynamic data)
+		private AccountModel GetAttributesValuesFromPrePostImages(AccountModel accountModel, dynamic data)
 		{
-			AccountModel casedata = caseModel;//copy everything
+			AccountModel casedata = accountModel;//copy everything
 
 			if (data.PostEntityImages != null && (data.PostEntityImages.Count > 0) && data.PostEntityImages[0] != null)
 			{
@@ -121,10 +123,10 @@ namespace V1DurableNetCRMTemplate.Parsers
 							if (att.key == "ownerid")//Lookup
 							{
 								if (att.value.Id != null)
-									caseModel.ownerid = Convert.ToString(att.value.Id);//	
+									accountModel.ownerid = Convert.ToString(att.value.Id);//	
 
 								if (att.value.Name != null)
-									caseModel.ownername = Convert.ToString(att.value.Name);//	in case you need name
+									accountModel.ownername = Convert.ToString(att.value.Name);//	in case you need name
 							}
 
 
@@ -132,25 +134,31 @@ namespace V1DurableNetCRMTemplate.Parsers
 							{
 								if (att.value != null && att.value.Value != null)
 									if (att.value.Value.Value != null)
-										caseModel.new_products = Convert.ToInt32(att.value.Value.Value);//									
+										accountModel.new_products = Convert.ToInt32(att.value.Value.Value);//									
 							}
 
 							if (att.key == "new_proimageurl")// string (straight)
 							{
 								if (att.value != null)
-									caseModel.new_proimageurl = Convert.ToString(att.value);//									
+									accountModel.new_proimageurl = Convert.ToString(att.value);//									
 							}
 
 							if (att.key == "new_productname")// string (straight)
 							{
 								if (att.value != null)
-									caseModel.new_productname = Convert.ToString(att.value);//									
+									accountModel.new_productname = Convert.ToString(att.value);//									
 							}
 
 							if (att.key == "new_productprice")//Money
 							{
 								if (att.value != null)
-									caseModel.new_productprice = Convert.ToDouble(att.value.Value);//									
+									accountModel.new_productprice = Convert.ToDouble(att.value.Value);//									
+							}
+
+							if (att.key == "new_userid")//text
+							{
+								if (att.value != null)
+									accountModel.new_userid = Convert.ToString(att.value);//									
 							}
 						}
 					}
@@ -159,11 +167,11 @@ namespace V1DurableNetCRMTemplate.Parsers
 			}//PostEntityImages
 			else
 			{
-				caseModel.new_productname = "";
-				caseModel.new_proimageurl = "";
-				caseModel.ownername = "";
+				accountModel.new_productname = "";
+				accountModel.new_proimageurl = "";
+				accountModel.ownername = "";
 				casedata.ownerid = "";
-
+				accountModel.new_userid = "";
 
 			}
 
@@ -182,10 +190,10 @@ namespace V1DurableNetCRMTemplate.Parsers
 								if (att.key == "ownerid")//Lookup
 								{
 									if (att.value.Id != null)
-										caseModel.preownerid = Convert.ToString(att.value.Id);//	
+										accountModel.preownerid = Convert.ToString(att.value.Id);//	
 
 									if (att.value.Name != null)
-										caseModel.preownername = Convert.ToString(att.value.Name);//	in case you need name
+										accountModel.preownername = Convert.ToString(att.value.Name);//	in case you need name
 								}
 
 
@@ -193,24 +201,29 @@ namespace V1DurableNetCRMTemplate.Parsers
 								{
 									if (att.value != null && att.value.Value != null)
 										if (att.value.Value.Value != null)
-											caseModel.prenew_products = Convert.ToInt32(att.value.Value.Value);//									
+											accountModel.prenew_products = Convert.ToInt32(att.value.Value.Value);//									
 								}
 
 								if (att.key == "new_proimageurl")// string (straight)
 								{
 									if (att.value != null)
-										caseModel.prenew_proimageurl = Convert.ToString(att.value);//									
+										accountModel.prenew_proimageurl = Convert.ToString(att.value);//									
 								}
 
 								if (att.key == "new_productname")// string (straight)
 								{
 									if (att.value != null)
-										caseModel.prenew_productname = Convert.ToString(att.value);//									
+										accountModel.prenew_productname = Convert.ToString(att.value);//									
 								}
 								if (att.key == "new_productprice")// string (straight)
 								{
 									if (att.value != null)
-										caseModel.prenew_productprice = Convert.ToDouble(att.value.Value);//									
+										accountModel.prenew_productprice = Convert.ToDouble(att.value.Value);//									
+								}
+								if (att.key == "new_userid")//text
+								{
+									if (att.value != null)
+										accountModel.prenew_userid = Convert.ToString(att.value);//									
 								}
 							}
 						}
@@ -221,35 +234,38 @@ namespace V1DurableNetCRMTemplate.Parsers
 			}//PreEntityImages
 			else
 			{
-				caseModel.preownerid = "";
-				caseModel.preownername = "";
-				caseModel.prenew_productname = "";
-				caseModel.prenew_proimageurl = "";
-
+				accountModel.preownerid = "";
+				accountModel.preownername = "";
+				accountModel.prenew_productname = "";
+				accountModel.prenew_proimageurl = "";
+				accountModel.prenew_userid = "";
 			}
 
 			// make sure anycase the pre field must be empty not null (avoid exception)
-			if (string.IsNullOrWhiteSpace(caseModel.preownerid)) //double check again			
-				caseModel.preownerid = "";
+			if (string.IsNullOrWhiteSpace(accountModel.preownerid)) //double check again			
+				accountModel.preownerid = "";
 
 
-			if (string.IsNullOrWhiteSpace(caseModel.preownername)) //double check againin case post delete	
-				caseModel.preownername = "";
+			if (string.IsNullOrWhiteSpace(accountModel.preownername)) //double check againin case post delete	
+				accountModel.preownername = "";
 
-			if (string.IsNullOrWhiteSpace(caseModel.prenew_productname)) //double check againin case post delete	
-				caseModel.prenew_productname = "";
+			if (string.IsNullOrWhiteSpace(accountModel.prenew_productname)) //double check againin case post delete	
+				accountModel.prenew_productname = "";
 
-			if (string.IsNullOrWhiteSpace(caseModel.prenew_proimageurl)) //double check againin case post delete	
-				caseModel.prenew_proimageurl = "";
+			if (string.IsNullOrWhiteSpace(accountModel.prenew_proimageurl)) //double check againin case post delete	
+				accountModel.prenew_proimageurl = "";
+
+			if (string.IsNullOrWhiteSpace(accountModel.prenew_userid)) //double check againin case post delete	
+				accountModel.prenew_userid = "";
 
 
-			return caseModel;
+			return accountModel;
 		}
 
 
-		private AccountModel GetInputParameterValues(AccountModel caseModel, dynamic data)
+		private AccountModel GetInputParameterValues(AccountModel accountModel, dynamic data)
 		{
-			AccountModel casedata = caseModel;//copy everything
+			AccountModel casedata = accountModel;//copy everything
 
 			if (data.InputParameters != null && (data.InputParameters.Count > 0) && data.InputParameters[0] != null)
 			{
@@ -266,10 +282,10 @@ namespace V1DurableNetCRMTemplate.Parsers
 									if (att.key == "ownerid")//Lookup
 									{
 										if (att.value.Id != null)
-											caseModel.ownerid = Convert.ToString(att.value.Id);//	
+											accountModel.ownerid = Convert.ToString(att.value.Id);//	
 
 										if (att.value.Name != null)
-											caseModel.ownername = Convert.ToString(att.value.Name);//	in case you need name
+											accountModel.ownername = Convert.ToString(att.value.Name);//	in case you need name
 									}
 
 
@@ -277,25 +293,32 @@ namespace V1DurableNetCRMTemplate.Parsers
 									{
 										if (att.value != null && att.value.Value != null)
 											if (att.value.Value.Value != null)
-												caseModel.new_products = Convert.ToInt32(att.value.Value.Value);//									
+												accountModel.new_products = Convert.ToInt32(att.value.Value.Value);//									
 									}
 
 									if (att.key == "new_proimageurl")// string (straight)
 									{
 										if (att.value != null)
-											caseModel.new_proimageurl = Convert.ToString(att.value);//									
+											accountModel.new_proimageurl = Convert.ToString(att.value);//									
 									}
 
 									if (att.key == "new_productname")// string (straight)
 									{
 										if (att.value != null)
-											caseModel.new_productname = Convert.ToString(att.value);//									
+											accountModel.new_productname = Convert.ToString(att.value);//									
 									}
 									if (att.key == "new_productprice")// string (straight)
 									{
 										if (att.value != null)
-											caseModel.new_productprice = Convert.ToDouble(att.value.Value);//									
+											accountModel.new_productprice = Convert.ToDouble(att.value.Value);//									
 									}
+
+									if (att.key == "new_userid")//text
+									{
+										if (att.value != null)
+											accountModel.prenew_userid = Convert.ToString(att.value);//									
+									}
+
 								}
 							}
 						}
@@ -304,13 +327,13 @@ namespace V1DurableNetCRMTemplate.Parsers
 				}
 			}//InputParameters
 
-			return caseModel;
+			return accountModel;
 		}
 
 
-		private AccountModel GetOutputParametersValues(AccountModel caseModel, dynamic data)
+		private AccountModel GetOutputParametersValues(AccountModel accountModel, dynamic data)
 		{
-			AccountModel casedata = caseModel;//copy everything
+			AccountModel casedata = accountModel;//copy everything
 
 			if (data.OutputParameters != null && (data.OutputParameters.Count > 0) && data.OutputParameters[0] != null)
 			{
@@ -327,10 +350,10 @@ namespace V1DurableNetCRMTemplate.Parsers
 									if (att.key == "ownerid")//Lookup
 									{
 										if (att.value.Id != null)
-											caseModel.ownerid = Convert.ToString(att.value.Id);//	
+											accountModel.ownerid = Convert.ToString(att.value.Id);//	
 
 										if (att.value.Name != null)
-											caseModel.ownername = Convert.ToString(att.value.Name);//	in case you need name
+											accountModel.ownername = Convert.ToString(att.value.Name);//	in case you need name
 									}
 
 
@@ -338,24 +361,30 @@ namespace V1DurableNetCRMTemplate.Parsers
 									{
 										if (att.value != null && att.value.Value != null)
 											if (att.value.Value.Value != null)
-												caseModel.new_products = Convert.ToInt32(att.value.Value.Value);//									
+												accountModel.new_products = Convert.ToInt32(att.value.Value.Value);//									
 									}
 
 									if (att.key == "new_proimageurl")// string (straight)
 									{
 										if (att.value != null)
-											caseModel.new_proimageurl = Convert.ToString(att.value);//									
+											accountModel.new_proimageurl = Convert.ToString(att.value);//									
 									}
 
 									if (att.key == "new_productname")// string (straight)
 									{
 										if (att.value != null)
-											caseModel.new_productname = Convert.ToString(att.value);//									
+											accountModel.new_productname = Convert.ToString(att.value);//									
 									}
 									if (att.key == "new_productprice")// string (straight)
 									{
 										if (att.value != null)
-											caseModel.new_productprice = Convert.ToDouble(att.value.Value);//									
+											accountModel.new_productprice = Convert.ToDouble(att.value.Value);//									
+									}
+
+									if (att.key == "new_userid")//text
+									{
+										if (att.value != null)
+											accountModel.prenew_userid = Convert.ToString(att.value);//									
 									}
 								}
 							}
@@ -366,7 +395,7 @@ namespace V1DurableNetCRMTemplate.Parsers
 			}//OutputParameters
 
 
-			return caseModel;
+			return accountModel;
 		}
 		string ParseJson(string unformattedJson)
 		{

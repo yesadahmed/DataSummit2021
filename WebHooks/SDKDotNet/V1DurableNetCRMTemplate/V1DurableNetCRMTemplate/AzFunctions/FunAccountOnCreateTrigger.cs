@@ -35,15 +35,15 @@ namespace V1DurableNetCRMTemplate.AzFunctions
 					//You can perform single/many like CRM and others types (Azure blob/Bus/queues/Sharepoint/PDF .........)
 					// EXAMPLE just crm handler
 
-
-
-					ProductAPI productMgr = new ProductAPI(httpClient, log);
+										ProductAPI productMgr = new ProductAPI(httpClient, log);
 					var product = await productMgr.AddProduct(account);
+					log.Warning($"inside create product");
 					if (product != null && product.id > 0) //update crm
 					{
+						log.Warning($"product.id: {product.id}");
 						AccountHandler accountHandler = new AccountHandler(crmManager.crmService.Clone(), log);
 						accountHandler.UpdateAccountProduct(product, new Guid(account.PrimaryEntityId));
-
+						log.Warning($"  product created");
 					}
 				}
 

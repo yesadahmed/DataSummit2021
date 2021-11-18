@@ -30,6 +30,7 @@ namespace V1DurableNetCRMTemplate.Model
 		public string ownerid { get; set; }
 		public string ownername { get; set; }
 		public int new_products { get; set; }
+		public string new_userid { get; set; }
 
 
 		public string prenew_proimageurl { get; set; }
@@ -39,6 +40,6 @@ namespace V1DurableNetCRMTemplate.Model
 		public string preownerid { get; set; }
 		public int prenew_products { get; set; }
 		public string preownername { get; set; }
-
+		public string prenew_userid { get; set; }
 	}
 }
