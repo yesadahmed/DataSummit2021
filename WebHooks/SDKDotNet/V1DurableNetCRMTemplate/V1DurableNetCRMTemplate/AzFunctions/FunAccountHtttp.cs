@@ -17,8 +17,6 @@ namespace V1DurableNetCRMTemplate
 		public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req,
 			[OrchestrationClient] DurableOrchestrationClient starter, TraceWriter log)
 		{
-
-
 			// Get request body		
 			string remoteExecutionJson = await req.Content.ReadAsStringAsync();// will be json RemoteExceutionContext
 

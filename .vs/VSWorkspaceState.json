@@ -1,10 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\CRMWebResources",
+    "\\Templates",
+    "\\Templates\\AzFuncV3DurableCRMWebAPI",
+    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate",
+    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate",
+    "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate\\AzureFunctions",
     "\\WebHooks",
     "\\WebHooks\\SDKDotNet",
     "\\WebHooks\\SDKDotNet\\V1DurableNetCRMTemplate"
   ],
-  "SelectedNode": "\\WebHooks\\SDKDotNet\\V1DurableNetCRMTemplate\\V1DurableNetCRMTemplate.sln",
+  "SelectedNode": "\\Templates\\AzFuncV3DurableCRMWebAPI\\V3DurableCore3CrmTemplate\\V3DurableCore3CrmTemplate\\AzureFunctions\\FuncAccountOrchestrator.cs",
   "PreviewInSolutionExplorer": false
 }

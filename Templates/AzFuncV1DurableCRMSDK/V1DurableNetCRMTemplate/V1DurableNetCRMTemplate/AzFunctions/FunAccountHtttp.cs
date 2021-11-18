@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 
 namespace V1DurableNetCRMTemplate
@@ -13,7 +14,7 @@ namespace V1DurableNetCRMTemplate
 	public static class FunAccountHtttp
 	{
 		[FunctionName("AccountHtttp")]
-		public static async Task<HttpResponseMessage> Run([HttpTrigger(WebHookType = "github")] HttpRequestMessage req,
+		public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req,
 			[OrchestrationClient] DurableOrchestrationClient starter, TraceWriter log)
 		{
 
